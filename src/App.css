@@ -6,6 +6,10 @@
     font-family: "Inter", sans-serif;
     font-weight: 400;
     font-style: normal;
+    text-transform: capitalize;
+    font-size: 12px;
+    line-height: 100%;
+    color: rgba(149, 148, 148, 1);
 }
 
 .contribution-graph {
@@ -33,18 +37,101 @@
     display: flex;
     justify-content: space-around;
     grid-column: 2;
+}
 
-    text-transform: capitalize;
-    font-size: 12px;
-    line-height: 100%;
-    font-weight: 400;
-    color: rgba(149, 148, 148, 1);
+.day-names-container {
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+}
+
+.day-cell-wrapper {
+    position: relative;
 }
 
 .day-cell {
     cursor: pointer;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .day-cell:hover {
     border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+
+.day-cell.no-contrib {
+    background-color: rgba(237, 237, 237, 1);
+}
+
+.day-cell.under-10 {
+    background-color: rgba(172, 213, 242, 1);
+}
+
+.day-cell.under-20 {
+    background-color: rgba(127, 168, 201, 1);
+}
+
+.day-cell.under-30 {
+    background-color: rgba(82, 123, 160, 1);
+}
+
+.day-cell.above-30 {
+    background-color: rgba(37, 78, 119, 1);
+}
+
+.cube-explaining {
+    display: flex;
+    gap: 8px;
+    min-height: 15px;
+    margin-top: 10px;
+    grid-column: 2;
+}
+
+.cube-container {
+    display: grid;
+    grid-template-columns: repeat(5, 15px);
+    gap: 2px;
+}
+
+.tooltip {
+    position: absolute;
+    z-index: 1;
+    padding: 6px 9px;
+    background-color: black;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    left: 0;
+    width: fit-content;
+    height: fit-content;
+    text-wrap: nowrap;
+    transform: translate(calc(-50% + 7.5px), calc(-100% - 23px));
+}
+
+.tooltip .coontributions-count {
+    color: white;
+}
+
+.tooltip .contribution-date {
+    color: rgba(124, 124, 124, 1);
+    font-size: 10px;
+}
+
+.tooltip:after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid #000;
 }
