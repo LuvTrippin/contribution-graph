@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import {
     format, startOfWeek, subWeeks,
     addDays, eachDayOfInterval, isSameDay,
-    isSameMonth
+    isSameMonth, isAfter
 } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import GraphCube from "./GraphCube.jsx";
@@ -80,6 +80,10 @@ const ContributionGraph = () => {
                             const dateString = format(date, 'yyyy-MM-dd');
                             const count = contributions[dateString] || 0;
                             const isToday = isSameDay(date, new Date());
+
+                            if (isAfter(date, new Date())) {
+                                return null;
+                            }
 
                             return (
                                 <GraphCube key={dateString} isToday={isToday} count={count} date={date} label={count}/>
