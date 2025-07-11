@@ -4,6 +4,8 @@ import {
     addDays, eachDayOfInterval, isSameDay,
     isSameMonth
 } from 'date-fns';
+import { ru } from 'date-fns/locale';
+import GraphCol from "../GraphCol/GraphCol.jsx";
 
 
 const ContributionGraph = () => {
@@ -16,7 +18,6 @@ const ContributionGraph = () => {
 
         const startDate = subWeeks(today, 50);
         const firstMonday = startOfWeek(startDate, { weekStartsOn: 1 });
-
 
         const weeksArray = [];
         for (let i = 0; i < 51; i++) {
@@ -42,6 +43,14 @@ const ContributionGraph = () => {
         console.log(data)
     }
 
+    const shouldRenderMonth = (week, weekIndex) => {
+        if (weekIndex === 0) return true;
+
+        const prevWeekFirstDay = weeks[weekIndex-1][0];
+        const currentWeekFirstDay = week[0];
+
+        return !isSameMonth(prevWeekFirstDay, currentWeekFirstDay);
+    };
 
     useEffect(() => {
         try {
@@ -50,12 +59,26 @@ const ContributionGraph = () => {
             console.log(error);
         }
 
-        console.log(getWeeks());
         setWeeks(getWeeks());
     }, []);
 
     return (
         <div className="contribution-graph">
+            <div className="months-header">
+                {weeks.map((week, weekIndex) =>
+                        shouldRenderMonth(week, weekIndex) && (
+                            <div key={`month-${weekIndex}`} className="month-label">
+                                {format(week[0], 'MMM', {locale: ru})}
+                            </div>
+                        )
+                )}
+            </div>
+
+            <div className="weeks-container">
+                {weeks.map((week, weekIndex) => (
+                    <GraphCol key={weekIndex} week={week} contributions={contributions} ></GraphCol>
+                ))}
+            </div>
         </div>
     );
 }
