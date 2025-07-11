@@ -5,7 +5,7 @@ import {
     isSameMonth
 } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import GraphCol from "../GraphCol/GraphCol.jsx";
+import GraphCube from "../GraphCube/GraphCube.jsx";
 
 
 const ContributionGraph = () => {
@@ -76,7 +76,17 @@ const ContributionGraph = () => {
 
             <div className="weeks-container">
                 {weeks.map((week, weekIndex) => (
-                    <GraphCol key={weekIndex} week={week} contributions={contributions} ></GraphCol>
+                    <div className="week-column">
+                        {week.map((date) => {
+                            const dateString = format(date, 'yyyy-MM-dd');
+                            const count = contributions[dateString] || 0;
+                            const isToday = isSameDay(date, new Date());
+
+                            return (
+                                <GraphCube key={dateString} isToday={isToday} count={count} date={date}/>
+                            );
+                        })}
+                    </div>
                 ))}
             </div>
         </div>

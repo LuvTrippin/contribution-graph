@@ -1,3 +1,13 @@
+#root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 .contribution-graph {
     display: grid;
     grid-template-columns: 17px 1fr;
@@ -29,4 +39,12 @@
     line-height: 100%;
     font-weight: 400;
     color: rgba(149, 148, 148, 1);
+}
+
+.day-cell {
+    cursor: pointer;
+}
+
+.day-cell:hover {
+    border: 1px solid rgba(0, 0, 0, 0.5);
 }
