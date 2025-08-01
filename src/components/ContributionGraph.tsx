@@ -5,14 +5,17 @@ import {
     isSameMonth, isAfter
 } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import GraphCube from "./GraphCube.jsx";
+import GraphCube from "./GraphCube.tsx";
 
+
+type ContributionsData = Record<string, number>;
+type WeeksArray = Date[][];
 
 const ContributionGraph = () => {
-    const [contributions, setContributions] = useState({});
-    const [weeks, setWeeks] = useState([]);
+    const [contributions, setContributions] = useState<ContributionsData>({});
+    const [weeks, setWeeks] = useState<WeeksArray>([]);
 
-    const getWeeks = () => {
+    const getWeeks = ():WeeksArray => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -38,11 +41,11 @@ const ContributionGraph = () => {
         if (!response.ok) {
             throw new Error("Ошибка при получении данных")
         }
-        const data = await response.json();
+        const data:ContributionsData = await response.json();
         setContributions(data);
     }
 
-    const shouldRenderMonth = (week, weekIndex) => {
+    const shouldRenderMonth = (week: Date[], weekIndex: number): boolean => {
         if (weekIndex === 0) return true;
 
         const prevWeekFirstDay = weeks[weekIndex-1][0];
@@ -86,7 +89,7 @@ const ContributionGraph = () => {
                             }
 
                             return (
-                                <GraphCube key={dateString} isToday={isToday} count={count} date={date} label={count}/>
+                                <GraphCube key={dateString} isToday={isToday} count={count} date={date} label={count.toString()} />
                             );
                         })}
                     </div>
@@ -100,11 +103,11 @@ const ContributionGraph = () => {
             <div className="cube-explaining">
                 <div>Меньше</div>
                 <div className="cube-container">
-                    <GraphCube key="0" isToday={false} count={0} date={null} label={"No"} />
-                    <GraphCube key="0" isToday={false} count={1} date={null} label={"1-9"} />
-                    <GraphCube key="0" isToday={false} count={10} date={null} label={"10-19"} />
-                    <GraphCube key="0" isToday={false} count={20} date={null} label={"20-29"} />
-                    <GraphCube key="0" isToday={false} count={30} date={null} label={"30+"} />
+                    <GraphCube key="0" isToday={false} count={0} date={null} label={"No"}  />
+                    <GraphCube key="1" isToday={false} count={1} date={null} label={"1-9"} />
+                    <GraphCube key="2" isToday={false} count={10} date={null} label={"10-19"} />
+                    <GraphCube key="3" isToday={false} count={20} date={null} label={"20-29"} />
+                    <GraphCube key="4" isToday={false} count={30} date={null} label={"30+"} />
                 </div>
                 <div>Больше</div>
             </div>
